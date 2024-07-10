@@ -22,12 +22,18 @@ const userRouter = require("./routes/user.js");
 
 
 
-const dbUrl = process.env.ATLASDB_URL;
+const dbUrl=process.env.ATLASDB_URL;
+main()
+.then(()=>{
+    console.log("connection to DB");
+})
+.catch(err=>{
+    console.log(err);
+});
 
-main().then((res) => { console.log("Connection successfuly") })
-  .catch(err => console.log(err));
-async function main() {
-  await mongoose.connect(dbUrl);
+async function main(){
+    // await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 }
 
 app.set("view engine", "ejs");
@@ -57,7 +63,7 @@ const sessionOptions = {
   cookie: {
       expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpsOnly: true,
+      httpOnly: true,
   },
 };
 
