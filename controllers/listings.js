@@ -14,12 +14,13 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.showListing = async (req, res) => {
     let { id } = req.params;
-    const listings = await Listing.findById(id).populate({ path: "reviews", populate: { path: "author" }, }).populate("owner");
+    const listings = await Listing.findById(id)
+        .populate({ path: "reviews", populate: { path: "author" } })
+        .populate("owner");
     if (!listings) {
-        req.flash("error", "Listings you requiested for does not exist!");
-        res.redirect("/listings");
+        req.flash("error", "Listing you requested does not exist!");
+        return res.redirect("/listings");
     }
-    console.log(listings);
     res.render("listings/show.ejs", { listings });
 };
 
@@ -50,16 +51,15 @@ module.exports.editListing = async (req, res) => {
     let { id } = req.params;
     const listings = await Listing.findById(id);
     if (!listings) {
-        req.flash("error", "Listings you requiested for does not exist!");
-        res.redirect("/listings");
+        req.flash("error", "Listing you requested does not exist!");
+        return res.redirect("/listings");
     }
 
     let originalImageUrl = listings.image.url;
-    originalImageUrl = originalImageUrl.replace("/upload" , "/upload/w_250");
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
     req.flash("success", "Listing edited!");
-    res.render("listings/edit.ejs", { listings , originalImageUrl });
+    res.render("listings/edit.ejs", { listings, originalImageUrl });
 };
-
 
 module.exports.updateListing = async (req, res) => {
     let { id } = req.params;
