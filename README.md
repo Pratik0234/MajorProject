@@ -20,8 +20,6 @@ Deployment: Render
 Installation
 Clone the repository:
 bash
-Copy code
-git clone https://github.com/your-repo-url.git
 Install dependencies:
 bash
 Copy code
